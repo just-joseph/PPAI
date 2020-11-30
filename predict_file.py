@@ -108,7 +108,7 @@ def main(job_id, textfile, clause_rule_csv_path):
 		# Use this to look into only one file in txt_to_csv_folder
 		csvfiles=[]
 		for file in os.listdir(txt_to_csv_folder):
-			if(file.endswith(textfile+"_"+job_id+'.csv')):
+			if(file == (textfile+"_"+job_id+'.csv')):  #endswith changed to filename check
 				csvfiles.append(txt_to_csv_folder+file)
 		print(" CSVFILES ", csvfiles)
 
@@ -193,6 +193,7 @@ def main(job_id, textfile, clause_rule_csv_path):
 			logfile.flush()
 			logfile.close()
 			print("Completed file")
+			break # break just to prevent multiple files
 	except Exception as e:
 		print("Error! ", e)
 		logfile.write("\n\nError: ", e)
