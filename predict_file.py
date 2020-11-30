@@ -17,17 +17,22 @@ import time
 # import uuid
 import sys
 
-def txt_to_csv(txt, outputfolder, job_id):
-    # print("Entered txt to csv")
+def txt_to_csv(input_folder, txt, outputfolder, job_id):
+    print("Entered txt to csv")
+    print(input_folder)
+    print(txt)
+    print(outputfolder)
     fileExtension = txt.split(".")[-1]
     if fileExtension == "txt":
-        with open(txt,  encoding="latin-1") as f:
+        with open(input_folder+txt,  encoding="latin-1") as f:
             print("txtFilename = ", txt)
             lines=f.read()
+        print("txtfile read")
         tests = lines.split("\n\n")
         df= pd.DataFrame()
         df['Paragraph'] = pd.Series(tests)
         df.to_csv(outputfolder+txt+"_"+job_id+".csv")
+        print("Leaving txt to csv")
             # , encoding='latin-1')
 
 def create_tokenizer_score(new_series, train_series, tokenizer):
@@ -76,7 +81,7 @@ def match_para_start(booldf,bert_output):
 
 def main(job_id, textfile, clause_rule_csv_path):
 	try:
-		# input_folder= "./predict_files/Input_files/input_txt/"
+		input_folder= "./predict_files/Input_files/"
 		# textfile= textfile
 		# clause_rule_csv= clause_rule_csv
 		txt_to_csv_folder= "./predict_files/inter_files/txt_Data/"
@@ -90,14 +95,14 @@ def main(job_id, textfile, clause_rule_csv_path):
 		logfile.write("Time: Loading packages completed by "+ str(time.time()-start)+"\n")
 		logfile.flush()
 
-		txt_to_csv(textfile, txt_to_csv_folder, job_id)
+		txt_to_csv(input_folder, textfile, txt_to_csv_folder, job_id)
 		# print("txt to csv converted")
 		logfile.write("Status: txt converted to paragraphs csv\n") 
 		logfile.write("Time: txt converted to paragraphs csv by "+ str(time.time()-start)+"\n")
 		logfile.flush()
 
 		# print(clause_rule_csv_path)
-		clauses_df= pd.read_excel(clause_rule_csv_path)
+		clauses_df= pd.read_excel(input_folder+clause_rule_csv_path)
 		# clauses_dict= pd.Series(clauses_df.Clause.values,index= clauses_df.Clause_name).to_dict()
 		# clauses_ordered_dict= collections.OrderedDict(clauses_dict)
 		# list_clauses_ordered_dict= list( clauses_ordered_dict.items() )
@@ -197,7 +202,7 @@ def main(job_id, textfile, clause_rule_csv_path):
 	except Exception as e:
 		print("Error! ", e)
 # 		print("errortype ", type(e))
-		logfile.write("\n\nError! "+repr(e))
+		logfile.write("\n\nError! "+str(e))
 		logfile.flush()
 		logfile.close()
 
@@ -206,9 +211,9 @@ if __name__ == '__main__':
 	job_id= sys.argv[1]
 	# txtfile= sys.argv[2]
 	txtfile = sys.argv[2]
-	clause_rule_csv= sys.argv[3]
-	# print(job_id)
-	# print(txtfile_path)
-	# print(clause_rule_csv)
+	clause_rule_csv = sys.argv[3]
+	print(job_id)
+	print(txtfile)
+	print(clause_rule_csv)
 	# print(type(clause_rule_csv))
 	main(job_id, txtfile, clause_rule_csv)
