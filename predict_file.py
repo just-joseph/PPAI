@@ -196,7 +196,8 @@ def main(job_id, textfile, clause_rule_csv_path):
 			break # break just to prevent multiple files
 	except Exception as e:
 		print("Error! ", e)
-		logfile.write("\n\nError: ", e)
+		logfile.write("\n\nError")
+		logfile.write(e)
 		logfile.flush()
 		logfile.close()
 
