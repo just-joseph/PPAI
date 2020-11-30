@@ -108,7 +108,7 @@ def main(job_id, textfile, clause_rule_csv_path):
 		# Use this to look into only one file in txt_to_csv_folder
 		csvfiles=[]
 		for file in os.listdir(txt_to_csv_folder):
-			if(file.endswith(job_id+'.csv')):
+			if(file.endswith(textfile+"_"+job_id+'.csv')):
 				csvfiles.append(txt_to_csv_folder+file)
 		print(" CSVFILES ", csvfiles)
 
