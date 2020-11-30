@@ -195,10 +195,11 @@ def main(job_id, textfile, clause_rule_csv_path):
 			print("Completed file")
 			break # break just to prevent multiple files
 	except Exception as e:
+		print("Error! ", e)
+		print("errortype ", type(e))
 		logfile.write("\n\nError! "+e)
 		logfile.flush()
 		logfile.close()
-		print("Error! ", e)
 
 
 if __name__ == '__main__':
